@@ -1,0 +1,39 @@
+{
+  "name": "jiang-switch",
+  "description": "jiang-switch",
+  "version": "1.0.4",
+  "author": "jianglang <643546122@qq.com>",
+  "license": "MIT",
+  "private": false,
+  "main": "dist/custom-ui.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+  },
+  "dependencies": {
+    "less": "^3.7.1",
+    "less-loader": "^4.1.0",
+    "vue": "^2.5.11"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-stage-3": "^6.24.1",
+    "cross-env": "^5.0.5",
+    "css-loader": "^0.28.7",
+    "file-loader": "^1.1.4",
+    "vue-loader": "^13.0.5",
+    "vue-template-compiler": "^2.4.4",
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.9.1"
+  },
+  "__npminstall_done": "Wed Oct 10 2018 13:40:20 GMT+0800 (CST)",
+  "_from": "jiang-switch@1.0.2",
+  "_resolved": "http://registry.npm.taobao.org/jiang-switch/download/jiang-switch-1.0.2.tgz"
+}
