@@ -31,7 +31,7 @@
     "vue-loader": "^13.0.5",
     "vue-template-compiler": "^2.4.4",
     "webpack": "^3.6.0",
-    "webpack-dev-server": "^2.9.1"
+    "webpack-dev-server": "^3.7.2"
   },
   "__npminstall_done": "Wed Oct 10 2018 13:40:20 GMT+0800 (CST)",
   "_from": "jiang-switch@1.0.2",
