@@ -3,7 +3,6 @@
     <toggle-menu :menu-list="menuList" :position="position"></toggle-menu>
     <jiang-switch v-model="isSwitch"></jiang-switch> 
     <!-- <jiang-loading :show="show"></jiang-loading> -->
-    <div>12</div>
   </div>
 </template>
 
@@ -27,7 +26,7 @@ export default {
   created () {
     this.$jiangLoading.open()
     setTimeout(() => {
-      // this.$jiangLoading.hide()
+      this.$jiangLoading.hide()
     }, 1000)
   }
 }

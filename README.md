@@ -27,7 +27,7 @@ npm run build
 ## 使用 API
 
 ### switch
-
+![loaidng](/public/img/switch.gif)
 ```html
 <jiang-switch v-model="isSwitch"></jiang-switch> 
 data () { 
@@ -38,7 +38,7 @@ data () {
 ```
 
 ### 菜单
-
+![loaidng](/public/img/menu.gif)
 ```html
 <toggle-menu :menu-list="menuList"></toggle-menu>
 
