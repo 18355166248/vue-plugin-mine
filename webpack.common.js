@@ -1,14 +1,7 @@
 var path = require('path')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-var webpack = require('webpack')
-
-// 执行环境
-const NODE_ENV = process.env.NODE_ENV
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
-  // 根据不同的执行环境配置不同的入口
-  entry: NODE_ENV == 'development' ? './src/main.js' : './src/index.js',
   output: {
     // 修改打包出口，在最外级目录打包出一个 index.js 文件，我们 import 默认会指向这个文件
     path: path.resolve(__dirname, './dist'),
@@ -22,17 +15,18 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: [
-          'vue-style-loader',
-          'css-loader'
-        ],
-      },      {
+        use: ['vue-style-loader', 'css-loader']
+      },
+      {
         test: /\.vue$/,
+        exclude: /node_modules/,
         loader: 'vue-loader',
+        include: path.join(__dirname, 'src'),
         options: {
           loaders: {
-          }
-          // other vue-loader options go here
+            scss: 'style-loader!css-loader!postcss-loader!less-loader'
+          },
+          extractCSS: true
         }
       },
       {
@@ -49,13 +43,13 @@ module.exports = {
       },
       {
         test: /\.less$/,
-        loader: "style-loader!css-loader!less-loader",
+        loader: 'style-loader!css-loader!less-loader'
       }
     ]
   },
   resolve: {
     alias: {
-      'vue$': 'vue/dist/vue.esm.js'
+      vue$: 'vue/dist/vue.esm.js'
     },
     extensions: ['*', '.js', '.vue', '.json']
   },
@@ -67,35 +61,7 @@ module.exports = {
   performance: {
     hints: false
   },
-  devtool: '#eval-source-map',
   plugins: [
-    new CleanWebpackPlugin(),
-    new ExtractTextPlugin({
-      filename: getPath => {
-        return getPath('css/[name]-[id].css').replace('css/js', 'css')
-      },
-      allChunks: true
-    })
+    new VueLoaderPlugin()
   ]
-}
-
-if (process.env.NODE_ENV === 'production') {
-  module.exports.devtool = '#source-map'
-  // http://vue-loader.vuejs.org/en/workflow/production.html
-  module.exports.plugins = (module.exports.plugins || []).concat([
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      }
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true,
-      compress: {
-        warnings: false
-      }
-    }),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true
-    })
-  ])
 }
