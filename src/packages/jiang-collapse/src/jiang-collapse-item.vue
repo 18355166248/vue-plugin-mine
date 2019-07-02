@@ -20,21 +20,28 @@
 
 <script>
 import jiangCollapseTransition from 'transitions/collapse-transitions'
+import emitter from 'common/mixins/emitter'
 
 export default {
   name: 'jiangCollapseItem',
+  componentName: 'jiangCollapseItem',
+  mixins: [emitter],
+  inject: ['collapse'],
   props: {
     title: String,
     name: [String, Number]
   },
   data() {
-    return {
-      isActive: false
+    return {}
+  },
+  computed: {
+    isActive: function() {
+      return this.collapse.activeName.indexOf(this.name) > -1
     }
   },
   methods: {
     handleHeaderClick() {
-      this.isActive = !this.isActive
+      this.dispatch('jiangCollapse', 'item-click', this)
     }
   },
   components: {

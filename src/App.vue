@@ -3,7 +3,9 @@
     <!-- <toggle-menu :menu-list="menuList" :position="position"></toggle-menu> -->
     <!-- <jiang-switch v-model="isSwitch"></jiang-switch>  -->
     <!-- <jiang-loading :show="show"></jiang-loading> -->
-    <jiang-collapse v-model="active">
+    <jiang-collapse v-model="active"
+                    @change="change"
+                    :accordion="true">
       <jiang-collapse-item title="头部"
                            name="1">
         <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
@@ -33,7 +35,7 @@ export default {
       ],
       position: 'RT',
       show: true,
-      active: '1'
+      active: ['1']
     }
   },
   created() {
@@ -41,6 +43,11 @@ export default {
     // setTimeout(() => {
     //   this.$jiangLoading.hide()
     // }, 1000)
+  },
+  methods: {
+    change(value) {
+      console.log(value)
+    }
   }
 }
 </script>
