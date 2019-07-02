@@ -1,7 +1,7 @@
 {
   "name": "jiang-switch",
   "description": "jiang-switch",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "author": "jianglang <643546122@qq.com>",
   "license": "MIT",
   "private": false,
@@ -33,6 +33,7 @@
     "mini-css-extract-plugin": "^0.7.0",
     "postcss-loader": "^3.0.0",
     "style-loader": "^0.23.1",
+    "style-resources-loader": "^1.2.1",
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.32.2",

@@ -43,13 +43,28 @@ module.exports = {
       },
       {
         test: /\.less$/,
-        loader: 'style-loader!css-loader!less-loader'
+        loader: [
+          'style-loader',
+          'css-loader',
+          'less-loader',
+          {
+            loader: 'style-resources-loader',
+            options: {
+              patterns: path.resolve(__dirname, './src/common/scss/*.less'),
+              injector: 'append'
+            }
+          }
+        ]
       }
     ]
   },
   resolve: {
     alias: {
-      vue$: 'vue/dist/vue.esm.js'
+      vue$: 'vue/dist/vue.esm.js',
+      '@': path.resolve(__dirname, 'src'),
+      'assets': path.resolve(__dirname, 'src/assets'),
+      'common': path.resolve(__dirname, 'src/common'),
+      'transitions': path.resolve(__dirname, 'src/transitions')
     },
     extensions: ['*', '.js', '.vue', '.json']
   },
@@ -61,7 +76,5 @@ module.exports = {
   performance: {
     hints: false
   },
-  plugins: [
-    new VueLoaderPlugin()
-  ]
+  plugins: [new VueLoaderPlugin()]
 }

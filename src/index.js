@@ -1,8 +1,16 @@
 import jiangSwitch from './packages/jiang-switch'
 import toggleMenu from './packages/toggle-menu'
 import jiangLoading from './packages/jiang-loading'
+import jiangCollpase from './packages/jiang-collapse'
+import jiangCollpaseItem from './packages/jiang-collapse-item'
 
-const components = [jiangSwitch, toggleMenu, jiangLoading]
+const components = [
+  jiangSwitch,
+  toggleMenu,
+  jiangLoading,
+  jiangCollpase,
+  jiangCollpaseItem
+]
 
 const install = function(Vue) {
   components.map(component => {
