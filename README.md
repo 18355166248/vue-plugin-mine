@@ -1,7 +1,15 @@
-# jiang-switch
+# jiang-element
 
 > jiang-switch
 > toggle-menu
+> jiang-loading
+> jiang-collapse jiang-collapse-item
+
+喜欢的可以关注下我的 gitHub 和博客
+[gitHub](https://github.com/18355166248/vue-plugin-mine)
+[博客](https://18355166248.github.io/)
+
+---
 
 ## 使用方法
 
@@ -27,18 +35,18 @@ npm run build
 ## 使用 API
 
 ### switch
+
 ![loaidng](/public/img/switch.gif)
+
 ```html
-<jiang-switch v-model="isSwitch"></jiang-switch> 
-data () { 
-  return { 
-    isSwitch: false 
-  }
-}
+<jiang-switch v-model="isSwitch"></jiang-switch> data () { return { isSwitch:
+false } }
 ```
 
 ### 菜单
+
 ![loaidng](/public/img/menu.gif)
+
 ```html
 <toggle-menu :menu-list="menuList"></toggle-menu>
 
@@ -52,19 +60,46 @@ require('./assets/xing.png')}, ], position: 'RT' } }
 ```
 
 ### 加载动画( loading )
+
 ![loaidng](/public/img/loading.gif)
-``` html
-<jiang-loading :show="show"></jiang-loading>
-参数:
-1. show 控制显示隐藏
-2. text 加载文本
-3. icon 加载图标
-4. progressColor 颜色样式
+
+```html
+<jiang-loading :show="show"></jiang-loading> 参数: 1. show 控制显示隐藏 2. text
+加载文本 3. icon 加载图标 4. progressColor 颜色样式
 ```
-也可以使用js进行调用
-``` js
+
+也可以使用 js 进行调用
+
+```js
 vue.$jiangLoading.open()
 vue.$jiangLoading.hide()
+```
+
+### 折叠面板( collapse )
+
+```html
+<jiang-collapse>
+  <jiang-collapse-item></jiang-collapse-item>
+</jiang-collapse>
+```
+
+![collapse](/public/img/collapse.gif)
+
+```
+参数:
+
+jiang-collapse Attribute
+1. value/v-model 当前激活的面板   string/array
+2. accordion     手风琴模式      boolean
+
+jiang-collapse Events
+1. change        激活面板时调用
+
+jiang-collapse-item Attribute
+name             唯一标识符       string/number
+title            标题            string
+disabled         是否禁用         boolean
+
 ```
 
 ==持续更新==

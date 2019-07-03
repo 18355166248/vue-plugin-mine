@@ -7,7 +7,8 @@
                     @change="change"
                     :accordion="true">
       <jiang-collapse-item title="头部"
-                           name="1">
+                           name="1"
+                           :disabled="true">
         <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
       </jiang-collapse-item>
       <jiang-collapse-item title="头部2"
@@ -46,7 +47,7 @@ export default {
   },
   methods: {
     change(value) {
-      console.log(value)
+      // console.log(value)
     }
   }
 }

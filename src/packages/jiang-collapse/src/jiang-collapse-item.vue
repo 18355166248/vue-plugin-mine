@@ -1,7 +1,13 @@
 <template>
-  <div :class="$commonClass + '-collapse-item'">
+  <div :class="[$commonClass + '-collapse-item', disabled ? 'is-disabled' : '']">
     <div class="title"
-         @click="handleHeaderClick">
+         @click="handleHeaderClick"
+         tabindex="0"
+         @focus="handleFocus"
+         @blur="focusing = false"
+         :class="{
+           'focusing': focusing 
+         }">
       <div>{{ title }}</div>
       <div class="right-content">
         <span class="iconfont icon-arrow-right-copy-copy-copy"
@@ -29,10 +35,14 @@ export default {
   inject: ['collapse'],
   props: {
     title: String,
-    name: [String, Number]
+    name: [String, Number],
+    disabled: Boolean
   },
   data() {
-    return {}
+    return {
+      focusing: false,
+      isClick: false
+    }
   },
   computed: {
     isActive: function() {
@@ -40,7 +50,20 @@ export default {
     }
   },
   methods: {
+    handleFocus() {
+      setTimeout(() => {
+        if (!this.isClick) {
+          this.focusing = true
+        } else {
+          this.isClick = false
+        }
+        console.log(this.focusing)
+      }, 50)
+    },
     handleHeaderClick() {
+      if (this.disabled) return
+      this.focusing = false
+      this.isClick = true
       this.dispatch('jiangCollapse', 'item-click', this)
     }
   },
@@ -55,6 +78,12 @@ export default {
   border-bottom: 1px solid @border-common-color;
   font-size: 13px;
   padding-right: 10px;
+  &.is-disabled {
+    .title {
+      color: #bbb;
+      cursor: not-allowed;
+    }
+  }
   .title {
     display: flex;
     justify-content: space-between;
@@ -62,6 +91,10 @@ export default {
     line-height: 48px;
     font-weight: 700;
     cursor: pointer;
+    outline: none;
+    &.focusing:focus:not(:hover) {
+      color: #409eff;
+    }
     .right-content {
       line-height: 48px;
       .icon-arrow-right-copy-copy-copy {
