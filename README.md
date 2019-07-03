@@ -36,7 +36,7 @@ npm run build
 
 ### switch
 
-![loaidng](/public/img/switch.gif)
+![loaidng](https://github.com/18355166248/vue-plugin-mine/raw/master/public/img/switch.gif)
 
 ```html
 <jiang-switch v-model="isSwitch"></jiang-switch> data () { return { isSwitch:
@@ -45,7 +45,7 @@ false } }
 
 ### 菜单
 
-![loaidng](/public/img/menu.gif)
+![loaidng](https://github.com/18355166248/vue-plugin-mine/raw/master/public/img/menu.gif)
 
 ```html
 <toggle-menu :menu-list="menuList"></toggle-menu>
@@ -61,7 +61,7 @@ require('./assets/xing.png')}, ], position: 'RT' } }
 
 ### 加载动画( loading )
 
-![loaidng](/public/img/loading.gif)
+![loaidng](https://github.com/18355166248/vue-plugin-mine/raw/master/public/img/loading.gif)
 
 ```html
 <jiang-loading :show="show"></jiang-loading> 参数: 1. show 控制显示隐藏 2. text
@@ -83,7 +83,7 @@ vue.$jiangLoading.hide()
 </jiang-collapse>
 ```
 
-![collapse](/public/img/collapse.gif)
+![collapse](https://github.com/18355166248/vue-plugin-mine/raw/master/public/img/collapse.gif)
 
 ```
 参数:

@@ -14,7 +14,12 @@
       <jiang-collapse-item title="头部2"
                            name="2">
         <div>
-          你可以在对象中传入更多属性来动态切换多个 class。此外，v-bind:class 指令也可以与普通的 class 属性共存。当有如下模板:</div>
+          你可以在对象中传入更多属性来动态切换多个 class。此外，v-bind:class 指令也可以与普通的 class 属性共存。</div>
+      </jiang-collapse-item>
+      <jiang-collapse-item title="头部3"
+                           name="3">
+        <div>
+          对于生产环境，我们推荐链接到一个明确的版本号和构建文件，以避免新版本造成的不可预期的破坏</div>
       </jiang-collapse-item>
     </jiang-collapse>
   </div>

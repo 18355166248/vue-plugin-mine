@@ -4,6 +4,7 @@
          @click="handleHeaderClick"
          tabindex="0"
          @focus="handleFocus"
+         @keyup.enter.space.stop="handleKeyClick"
          @blur="focusing = false"
          :class="{
            'focusing': focusing 
@@ -64,6 +65,9 @@ export default {
       if (this.disabled) return
       this.focusing = false
       this.isClick = true
+      this.dispatch('jiangCollapse', 'item-click', this)
+    },
+    handleKeyClick() {
       this.dispatch('jiangCollapse', 'item-click', this)
     }
   },
