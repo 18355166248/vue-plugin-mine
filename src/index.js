@@ -3,13 +3,15 @@ import toggleMenu from './packages/toggle-menu'
 import jiangLoading from './packages/jiang-loading'
 import jiangCollpase from './packages/jiang-collapse'
 import jiangCollpaseItem from './packages/jiang-collapse-item'
+import jiangDrag from './packages/jiang-drag'
 
 const components = [
   jiangSwitch,
   toggleMenu,
   jiangLoading,
   jiangCollpase,
-  jiangCollpaseItem
+  jiangCollpaseItem,
+  jiangDrag
 ]
 
 const install = function(Vue) {

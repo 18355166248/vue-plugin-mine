@@ -3,7 +3,7 @@
     <!-- <toggle-menu :menu-list="menuList" :position="position"></toggle-menu> -->
     <!-- <jiang-switch v-model="isSwitch"></jiang-switch>  -->
     <!-- <jiang-loading :show="show"></jiang-loading> -->
-    <jiang-collapse v-model="active"
+    <!-- <jiang-collapse v-model="active"
                     @change="change"
                     :accordion="true">
       <jiang-collapse-item title="头部"
@@ -21,7 +21,9 @@
         <div>
           对于生产环境，我们推荐链接到一个明确的版本号和构建文件，以避免新版本造成的不可预期的破坏</div>
       </jiang-collapse-item>
-    </jiang-collapse>
+    </jiang-collapse> -->
+    <!-- 拖拽组件 -->
+    <jiang-drag :list="dragList" />
   </div>
 </template>
 
@@ -41,7 +43,8 @@ export default {
       ],
       position: 'RT',
       show: true,
-      active: ['1']
+      active: ['1'],
+      dragList: [{ id: 1 }]
     }
   },
   created() {
