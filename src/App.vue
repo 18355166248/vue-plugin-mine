@@ -22,12 +22,30 @@
           对于生产环境，我们推荐链接到一个明确的版本号和构建文件，以避免新版本造成的不可预期的破坏</div>
       </jiang-collapse-item>
     </jiang-collapse> -->
+
     <!-- 拖拽组件 -->
-    <jiang-drag :list="dragList" />
+    <jiang-drag-item :data="componentData"
+                     @finishDrag="finishDrag">
+      <template v-slot:header="slotProps">
+        <div class="topMenuBox">
+          <div class="menuTitle"
+               v-if="slotProps.item.name">{{slotProps.item.name}}</div>
+          <div class="menuTitle"
+               v-else> 默认标题 </div>
+          <div class="dotBox">
+            <div class="circleDot"></div>
+            <div class="circleDot"></div>
+            <div class="circleDot"></div>
+          </div>
+        </div>
+      </template>
+    </jiang-drag-item>
   </div>
 </template>
 
 <script>
+import exampleChild1 from './components/exampleChild1'
+
 export default {
   name: 'app',
   data() {
@@ -44,7 +62,41 @@ export default {
       position: 'RT',
       show: true,
       active: ['1'],
-      dragList: [{ id: 1 }]
+
+      componentData: [
+        {
+          positionNum: 1,
+          name: '演示卡片1',
+          id: 'card1',
+          componentData: exampleChild1
+        },
+        {
+          positionNum: 2,
+          name: '演示卡片2',
+          id: 'card2',
+          componentData: exampleChild1
+        },
+        {
+          positionNum: 3,
+          name: '演示卡片3',
+          id: 'card3',
+          componentData: exampleChild1
+        },
+        {
+          positionNum: 4,
+          name: '演示卡片4',
+          id: 'card4',
+          componentData: exampleChild1
+        }
+      ],
+      dragOptions: {
+        colNum: 5, //一行有多少列
+        cardOutsideWidth: 140, //单个卡片的外范围宽度
+        cardOutsideHeight: 160, //单个卡片的外范围高度
+        cardInsideWidth: 100, //单个卡片的内容宽度
+        cardInsideHeight: 120, //单个卡片的内容高度
+        mousedownTimer: null //用于记录卡片当前是否在过渡状态中的定时器
+      }
     }
   },
   created() {
@@ -56,12 +108,18 @@ export default {
   methods: {
     change(value) {
       // console.log(value)
+    },
+    finishDrag(old, newVal, item) {
+      console.log(old, newVal, item)
     }
+  },
+  components: {
+    exampleChild1
   }
 }
 </script>
 
-<style>
+<style scoped lang="less">
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -70,22 +128,22 @@ export default {
   margin-top: 60px;
 }
 
-h1,
-h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
+.drag_box {
+  .drag_main {
+    box-sizing: border-box;
+    .drag_header {
+      height: 40px;
+      line-height: 40px;
+      padding-left: 5px;
+      background-color: #666;
+      box-sizing: border-box;
+      color: #fff;
+    }
+    .drag_content {
+      padding: 5px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+  }
 }
 </style>
