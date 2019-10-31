@@ -74,7 +74,7 @@ export default {
     }
   },
   data: () => ({
-    mousedownTimer: null
+    mousedownTimer: null // 移动过程中不能执行
   }),
   methods: {
     touchStart(event, selectId) {
@@ -83,13 +83,15 @@ export default {
       }
       //若触发了点击事件，则返回一个暴露出一个方法
       this.$emit('startDrag', event, selectId)
+
       const that = this
-      let DectetTimer = null
+      let DectetTimer = null // 定时器计算
       let originTop =
         document.body.scrollTop === 0
           ? document.documentElement.scrollTop
           : document.body.scrollTop
       let scrolTop = originTop
+
       //记录鼠标移动的距离
       let moveTop = 0
       let moveLeft = 0
@@ -109,15 +111,16 @@ export default {
       let NewPositon = null
       // 选中的卡片的dom和数据
       let selectDom = document.getElementById(selectId)
-      let selectMenuData = this.data.find(item => {
-        return item.id === selectId
-      })
+      // 选择的列表数据
+      let selectMenuData = this.data.find(item => item.id === selectId)
       OriginMousePosition.x = event.screenX
       OriginMousePosition.y = event.screenY
       selectDom.classList.add('d_moveBox')
+      // 移动盒子 起始left
       moveLeft = OriginObjPosition.left = parseInt(
         selectDom.style.left.slice(0, selectDom.style.left.length - 2)
       )
+      // 移动盒子 起始top
       moveTop = OriginObjPosition.top = parseInt(
         selectDom.style.top.slice(0, selectDom.style.top.length - 2)
       )
@@ -126,6 +129,7 @@ export default {
       document.addEventListener('mouseup', mouseUpListener)
       document.addEventListener('scroll', mouseScroll)
 
+      // 移动中执行
       function mouseMoveListener(event) {
         moveTop =
           OriginObjPosition.top + (event.screenY - OriginMousePosition.y)
@@ -141,6 +145,7 @@ export default {
           }, 200)
         }
       }
+      // 页面滚动执行
       function mouseScroll(event) {
         scrolTop =
           document.body.scrollTop === 0
@@ -149,10 +154,17 @@ export default {
         document.querySelector('.d_moveBox').style.top =
           moveTop + scrolTop - originTop + 'px'
       }
+      /**
+       * 计算当前移动卡片，可以覆盖的号码位置
+       * @params moveItemTop 当前移动卡片 top值
+       * @params moveItemLeft 当前移动卡片 left值
+       */
       function cardDetect(moveItemTop, moveItemLeft) {
-        //计算当前移动卡片，可以覆盖的号码位置
+        // 当前行第几列
         let newWidthNum = Math.round(moveItemLeft / that.cardOutsideWidth) + 1
+        // 第几行
         let newHeightNum = Math.round(moveItemTop / that.cardOutsideHeight)
+
         if (
           newHeightNum > Math.ceil(that.data.length / that.colNum) - 1 ||
           newHeightNum < 0 ||
@@ -163,14 +175,22 @@ export default {
         }
         const newPositionNum = newWidthNum + newHeightNum * that.colNum
         if (newPositionNum !== selectMenuData.positionNum) {
-          let newItem = that.data.find(item => {
-            return item.positionNum === newPositionNum
-          })
+          // 位置不在原先位置了 newPositionNum 为移动后的 positionNum
+          // newItem 移动后原先占位的卡片
+          let newItem = that.data.find(
+            item => item.positionNum === newPositionNum
+          )
+
           if (newItem) {
             swicthPosition(newItem, selectMenuData)
           }
         }
       }
+      /**
+       * 重新计算所有盒子位置
+       * @params newItem 移动后原先占位的卡片
+       * @params originItem 移动的盒子
+       */
       function swicthPosition(newItem, originItem) {
         OldPositon = originItem.positionNum
         NewPositon = newItem.positionNum

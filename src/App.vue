@@ -87,6 +87,37 @@ export default {
           name: '演示卡片4',
           id: 'card4',
           componentData: exampleChild1
+        },
+        {
+          positionNum: 5,
+          name: '演示卡片4',
+          id: 'card5',
+          componentData: exampleChild1
+        },{
+          positionNum: 6,
+          name: '演示卡片4',
+          id: 'card6',
+          componentData: exampleChild1
+        },{
+          positionNum: 7,
+          name: '演示卡片4',
+          id: 'card7',
+          componentData: exampleChild1
+        },{
+          positionNum: 8,
+          name: '演示卡片4',
+          id: 'card8',
+          componentData: exampleChild1
+        },{
+          positionNum: 9,
+          name: '演示卡片4',
+          id: 'card9',
+          componentData: exampleChild1
+        },{
+          positionNum: 10,
+          name: '演示卡片4',
+          id: 'card10',
+          componentData: exampleChild1
         }
       ],
       dragOptions: {
@@ -110,7 +141,7 @@ export default {
       // console.log(value)
     },
     finishDrag(old, newVal, item) {
-      console.log(old, newVal, item)
+      // console.log(old, newVal, item)
     }
   },
   components: {
