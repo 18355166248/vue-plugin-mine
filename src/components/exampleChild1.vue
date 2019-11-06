@@ -1,7 +1,6 @@
 <template>
   <div class="contentBox">
     {{itemData.name}}+1
-    <!-- <img src="../assets/logo.png"> -->
   </div>
 </template>
 

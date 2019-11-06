@@ -4,7 +4,6 @@ import jiangLoading from './packages/jiang-loading'
 import jiangCollpase from './packages/jiang-collapse'
 import jiangCollpaseItem from './packages/jiang-collapse-item'
 import jiangDrag from './packages/jiang-drag'
-import jiangDragItem from './packages/jiang-drag-item'
 
 const components = [
   jiangSwitch,
@@ -12,8 +11,7 @@ const components = [
   jiangLoading,
   jiangCollpase,
   jiangCollpaseItem,
-  jiangDrag,
-  jiangDragItem
+  jiangDrag
 ]
 
 const install = function(Vue) {

@@ -24,22 +24,17 @@
     </jiang-collapse> -->
 
     <!-- 拖拽组件 -->
-    <jiang-drag-item :data="componentData"
-                     @finishDrag="finishDrag">
+    <jiang-drag :data="componentData"
+                @finishDrag="finishDrag">
       <template v-slot:header="slotProps">
         <div class="topMenuBox">
           <div class="menuTitle"
                v-if="slotProps.item.name">{{slotProps.item.name}}</div>
           <div class="menuTitle"
-               v-else> 默认标题 </div>
-          <div class="dotBox">
-            <div class="circleDot"></div>
-            <div class="circleDot"></div>
-            <div class="circleDot"></div>
-          </div>
+               v-else>默认标题</div>
         </div>
       </template>
-    </jiang-drag-item>
+    </jiang-drag>
   </div>
 </template>
 
@@ -93,29 +88,33 @@ export default {
           name: '演示卡片4',
           id: 'card5',
           componentData: exampleChild1
-        },{
+        },
+        {
           positionNum: 6,
           name: '演示卡片4',
           id: 'card6',
           componentData: exampleChild1
-        },{
+        },
+        {
           positionNum: 7,
           name: '演示卡片4',
           id: 'card7',
           componentData: exampleChild1
-        },{
+        },
+        {
           positionNum: 8,
           name: '演示卡片4',
           id: 'card8',
           componentData: exampleChild1
-        },{
+        },
+        {
           positionNum: 9,
           name: '演示卡片4',
           id: 'card9',
           componentData: exampleChild1
-        },{
+        },
+        {
           positionNum: 10,
-          name: '演示卡片4',
           id: 'card10',
           componentData: exampleChild1
         }

@@ -102,4 +102,38 @@ disabled         是否禁用         boolean
 
 ```
 
+### 拖拽排序
+
+```html
+<jiang-drag :data="componentData" @finishDrag="finishDrag">
+  <template v-slot:header="slotProps">
+    <div class="topMenuBox">
+      <div class="menuTitle" v-if="slotProps.item.name">
+        {{slotProps.item.name}}
+      </div>
+      <div class="menuTitle" v-else>默认标题</div>
+    </div>
+  </template>
+</jiang-drag>
+```
+
+![collapse](https://github.com/18355166248/vue-plugin-mine/raw/master/public/img/drag.gif)
+
+```
+参数:
+jiang-collapse Attribute
+1. data 渲染列表 Array
+2. colNum 一行几列  Number
+3. cardOutsideWidth 每块卡片的外部宽度包括空白处
+4. cardOutsideHeight  每块卡片的外部高度包括空白处
+5. cardInsideWidth  每块卡片的宽度
+6. cardInsideHeight 每块卡片的高度
+
+
+jiang-collapse Events
+1. startDrag   移动触发
+2. swicthPosition  重新计算盒子位置触发
+3. finishDrag  移动完毕触发
+```
+
 ==持续更新==
