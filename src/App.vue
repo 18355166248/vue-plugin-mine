@@ -60,63 +60,19 @@ export default {
 
       componentData: [
         {
-          positionNum: 1,
-          name: '演示卡片1',
+          name: '卡片1',
           id: 'card1',
           componentData: exampleChild1
         },
         {
-          positionNum: 2,
-          name: '演示卡片2',
+          name: '卡片2',
           id: 'card2',
           componentData: exampleChild1
         },
         {
-          positionNum: 3,
-          name: '演示卡片3',
+          name: '卡片3',
           id: 'card3',
-          componentData: exampleChild1
-        },
-        {
-          positionNum: 4,
-          name: '演示卡片4',
-          id: 'card4',
-          componentData: exampleChild1
-        },
-        {
-          positionNum: 5,
-          name: '演示卡片4',
-          id: 'card5',
-          componentData: exampleChild1
-        },
-        {
-          positionNum: 6,
-          name: '演示卡片4',
-          id: 'card6',
-          componentData: exampleChild1
-        },
-        {
-          positionNum: 7,
-          name: '演示卡片4',
-          id: 'card7',
-          componentData: exampleChild1
-        },
-        {
-          positionNum: 8,
-          name: '演示卡片4',
-          id: 'card8',
-          componentData: exampleChild1
-        },
-        {
-          positionNum: 9,
-          name: '演示卡片4',
-          id: 'card9',
-          componentData: exampleChild1
-        },
-        {
-          positionNum: 10,
-          id: 'card10',
-          componentData: exampleChild1
+          content: '测试content3'
         }
       ],
       dragOptions: {
