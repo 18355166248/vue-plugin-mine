@@ -6,7 +6,7 @@
       @mousedown="touchStart($event, dragItem)"
       v-for="dragItem in data"
       :key="dragItem.id"
-      :style="getDragItem"
+      :style="getDragItemStyle(dragItem.id)"
     >
       <div class="header">{{ dragItem.name }}</div>
       <div class="content">
@@ -25,6 +25,9 @@
 </template>
 
 <script>
+import { log } from 'util'
+const commonMargin = 20
+
 export default {
   name: 'jiangDrag',
   props: {
@@ -36,47 +39,91 @@ export default {
   data() {
     return {
       selectdom: null,
-    }
-  },
-  computed: {
-    getDragItem() {
-      return {
-        transform: `translate(0, 0)`
-      }
+      dragItem: {},
+      startMousePosition: {
+        x: 0,
+        y: 0
+      },
+      startMovePosition: {
+        top: 0,
+        left: 0
+      },
+      startItem: {
+        width: 0,
+        height: 0
+      },
+      commonItemStyle: { marginBottom: commonMargin + 'px' }
     }
   },
   methods: {
     touchStart(event, dragItem) {
-      console.log(event, dragItem)
-
-      console.log(event.target.getBoundingClientRect())
-
       // 记录鼠标移动的记录
-      const movePosition = {
+      this.startMovePosition = {
         top: 0,
         left: 0
       }
 
-      // 记录鼠标信息
-      const originMousePosition = {
+      // 盒子开始的位置
+      this.startItemPosition = {
         x: event.clientX,
         y: event.clientY
       }
 
       this.selectdom = document.getElementById(dragItem.id)
 
+      this.dragItem = dragItem
+
+      const { width, height, x, y } = this.selectdom.getBoundingClientRect()
+
+      // 移动盒子宽高
+      this.startMoveItem = {
+        width,
+        height,
+        x,
+        y
+      }
+
       document.addEventListener('mousemove', this.mouseMoveListener)
       document.addEventListener('mouseup', this.mouseUpListener)
     },
 
     mouseMoveListener(event) {
-      console.log(event.screenX, event.screenY)
+      // 记录鼠标信息
+      const originMousePosition = {
+        x: event.clientX - this.startItemPosition.x + this.startMoveItem.x,
+        y: event.clientY - this.startItemPosition.y + this.startMoveItem.y
+      }
+
+      this.startItem = {
+        width: this.startMoveItem.width,
+        height: this.startMoveItem.height
+      }
+
       this.selectdom.style.position = 'fixed'
+      this.selectdom.style.zIndex = '999'
+      this.selectdom.style.top = originMousePosition.y + 'px'
+      this.selectdom.style.left = originMousePosition.x + 'px'
+      this.selectdom.style.width = this.startMoveItem.width + 'px'
+      this.selectdom.style.heihgt = this.startMoveItem.height + 'px'
     },
 
     mouseUpListener(event) {
       document.removeEventListener('mousemove', this.mouseMoveListener)
       document.removeEventListener('mouseup', this.mouseUpListener)
+    },
+
+    getDragItemStyle(id) {
+      if (this.dragItem.id === id) return {}
+
+      if (Object.keys(this.dragItem).length === 0) {
+        return Object.assign({}, {
+        transform: `translate(0, ${this.startItem.height}px)`
+      }, this.commonItemStyle)
+      }
+
+      return Object.assign({}, {
+        transform: `translate(0, ${this.startItem.height + commonMargin}px)`
+      }, this.commonItemStyle)
     }
   }
 }
@@ -88,7 +135,7 @@ export default {
 .@{commonclass}-drag {
   padding: @commonPadding;
   .@{commonclass}-drag-item {
-    margin-bottom: 20px;
+    background-color: #fff;
     border-radius: 4px;
     border: 1px solid #ccc;
     box-sizing: border-box;
