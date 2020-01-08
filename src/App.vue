@@ -73,6 +73,11 @@ export default {
           name: '卡片3',
           id: 'card3',
           content: '测试content3'
+        },
+        {
+          name: '卡片4',
+          id: 'card4',
+          content: '测试content4'
         }
       ],
       dragOptions: {

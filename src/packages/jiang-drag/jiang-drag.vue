@@ -6,7 +6,6 @@
       @mousedown="touchStart($event, dragItem)"
       v-for="(dragItem, dragIndex) in data"
       :key="dragItem.id"
-      :style="getDragItemStyle(dragItem.id, dragIndex)"
     >
       <div class="header">{{ dragItem.name }}</div>
       <div class="content">
@@ -25,8 +24,8 @@
 </template>
 
 <script>
-import { log } from 'util';
-const commonMargin = 20;
+import { log } from 'util'
+const commonMargin = 20
 
 export default {
   name: 'jiangDrag',
@@ -38,6 +37,7 @@ export default {
   },
   data() {
     return {
+      commonMargin,
       selectdom: null,
       dragItem: {},
       startMousePosition: {
@@ -54,12 +54,18 @@ export default {
       },
       commonItemStyle: { marginBottom: commonMargin + 'px' },
       boxTop: 0
-    };
+    }
   },
   mounted() {
-    this.boxTop = document
+    const { top, height, width } = document
       .getElementById(this.$commonClass + '-drag')
-      .getBoundingClientRect().top;
+      .getBoundingClientRect()
+
+    this.boxTop = top
+
+    this.data.forEach((v, i) => {
+      this.getDragItemStyle(v.id, i)
+    })
   },
   methods: {
     touchStart(event, dragItem) {
@@ -67,19 +73,19 @@ export default {
       this.startMovePosition = {
         top: 0,
         left: 0
-      };
+      }
 
       // 盒子开始的位置
       this.startItemPosition = {
         x: event.clientX,
         y: event.clientY
-      };
+      }
 
-      this.selectdom = document.getElementById(dragItem.id);
+      this.selectdom = document.getElementById(dragItem.id)
 
-      this.dragItem = dragItem;
+      this.dragItem = dragItem
 
-      const { width, height, x, y } = this.selectdom.getBoundingClientRect();
+      const { width, height, x, y } = this.selectdom.getBoundingClientRect()
 
       // 移动盒子宽高
       this.startMoveItem = {
@@ -87,10 +93,10 @@ export default {
         height,
         x,
         y
-      };
+      }
 
-      document.addEventListener('mousemove', this.mouseMoveListener);
-      document.addEventListener('mouseup', this.mouseUpListener);
+      document.addEventListener('mousemove', this.mouseMoveListener)
+      document.addEventListener('mouseup', this.mouseUpListener)
     },
 
     mouseMoveListener(event) {
@@ -98,33 +104,37 @@ export default {
       const originMousePosition = {
         x: event.clientX - this.startItemPosition.x + this.startMoveItem.x,
         y: event.clientY - this.startItemPosition.y + this.startMoveItem.y
-      };
+      }
 
       this.startItem = {
         width: this.startMoveItem.width,
         height: this.startMoveItem.height
-      };
+      }
 
-      this.selectdom.style.position = 'fixed';
-      this.selectdom.style.zIndex = '999';
-      this.selectdom.style.top = originMousePosition.y + 'px';
-      this.selectdom.style.left = originMousePosition.x + 'px';
-      this.selectdom.style.width = this.startMoveItem.width + 'px';
-      this.selectdom.style.heihgt = this.startMoveItem.height + 'px';
+      this.selectdom.style.position = 'fixed'
+      this.selectdom.style.zIndex = '999'
+      this.selectdom.style.top = originMousePosition.y + 'px'
+      this.selectdom.style.left = originMousePosition.x + 'px'
+      this.selectdom.style.width = this.startMoveItem.width + 'px'
+      this.selectdom.style.heihgt = this.startMoveItem.height + 'px'
 
       if (!this.moveTimer) {
         this.moveTimer = setTimeout(() => {
-          this.moveIndex = this.getDragItemIndex();
+          this.moveIndex = this.getDragItemIndex()
 
-          clearTimeout(this.moveTimer);
-          this.moveTimer = null;
-        }, 600);
+          this.data.forEach((v, i) => {
+            this.getDragItemStyle(v.id, i)
+          })
+
+          clearTimeout(this.moveTimer)
+          this.moveTimer = null
+        }, 300)
       }
     },
 
     mouseUpListener(event) {
-      document.removeEventListener('mousemove', this.mouseMoveListener);
-      document.removeEventListener('mouseup', this.mouseUpListener);
+      document.removeEventListener('mousemove', this.mouseMoveListener)
+      document.removeEventListener('mouseup', this.mouseUpListener)
     },
 
     /**
@@ -133,54 +143,45 @@ export default {
      * @params index {number} 每行元素位于data数据中的索引
      */
     getDragItemStyle(id, index) {
-      console.log(index, this.dragItem.id === id);
+      const itemDom = document.getElementById(id)
 
-      if (this.dragItem.id === id) return {};
+      if (this.dragItem.id === id) return (itemDom.style.marginBottom = 0)
 
       if (Object.keys(this.dragItem).length === 0) {
-        return Object.assign(
-          {},
-          {
-            transform: `translate(0, ${this.startItem.height}px)`
-          },
-          this.commonItemStyle
-        );
+        itemDom.style.marginBottom = this.commonMargin + 'px'
+        itemDom.style.transform = `translate(0, ${this.startItem.height}px)`
+
+        return
       }
 
-      const curIndex = this.data.findIndex(v => v.id === this.dragItem.id);
+      const curIndex = this.data.findIndex(v => v.id === this.dragItem.id)
 
       if ((this.moveIndex || this.moveIndex === 0) && this.moveIndex >= index) {
-        return Object.assign(
-          {},
-          { transition: 'transform 0.2s cubic-bezier(0.2, 0, 0, 1)' },
-          this.commonItemStyle
-        );
+        itemDom.style.marginBottom = this.commonMargin + 'px'
+        itemDom.style.transform = 'translate(0, 0)'
+        itemDom.style.transition = 'transform 0.2s cubic-bezier(0.2, 0, 0, 1)'
+
+        return
       }
 
-      console.log(this.moveIndex, index);
       if ((this.moveIndex || this.moveIndex === 0) && this.moveIndex < index) {
-        return Object.assign(
-          {},
-          {
-            transform: `translate(0, ${this.startItem.height +
-              commonMargin}px)`,
-            transition: 'transform 0.2s cubic-bezier(0.2, 0, 0, 1)'
-          },
-          this.commonItemStyle
-        );
+        itemDom.style.marginBottom = this.commonMargin + 'px'
+        itemDom.style.transform = `translate(0, ${this.startItem.height +
+          commonMargin}px)`
+        itemDom.style.transition = 'transform 0.2s cubic-bezier(0.2, 0, 0, 1)'
+
+        return
       }
 
-      if (curIndex < index) {
-        return Object.assign(
-          {},
-          {
-            transform: `translate(0, ${this.startItem.height + commonMargin}px)`
-          },
-          this.commonItemStyle
-        );
+      if (curIndex > -1 && curIndex < index) {
+        itemDom.style.marginBottom = this.commonMargin + 'px'
+        itemDom.style.transform = `translate(0, ${this.startItem.height +
+          commonMargin}px)`
+
+        return
       }
 
-      return this.commonItemStyle;
+      itemDom.style.marginBottom = this.commonMargin + 'px'
     },
 
     // 计算出当前移动盒子应该在的索引
@@ -190,30 +191,30 @@ export default {
         this.selectdom.style.top.substring(
           0,
           this.selectdom.style.top.length - 2
-        ) - this.boxTop;
-      let maxHeight = 0;
-      let moveIndex = 0;
+        ) - this.boxTop
+      let maxHeight = 0
+      let moveIndex = 0
       for (let i = 0; i < this.data.length; i++) {
-        const v = this.data[i];
+        const v = this.data[i]
 
         const height = document.getElementById(v.id).getBoundingClientRect()
-          .height;
+          .height
 
-        const curMaxHeight = maxHeight + height / 2 + commonMargin;
+        const curMaxHeight = maxHeight + height / 2 + commonMargin
 
-        maxHeight += height + commonMargin;
+        maxHeight += height + commonMargin
 
         if (curMaxHeight < curTop) {
-          moveIndex = i + 1;
+          moveIndex = i + 1
         }
       }
 
-      console.log(moveIndex);
+      console.log(moveIndex)
 
-      return moveIndex;
+      return moveIndex
     }
   }
-};
+}
 </script>
 
 <style lang="less" scoped>
