@@ -111,7 +111,8 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  margin-top: 60px;
+  // margin-top: 60px;
+  padding: 10px;
 }
 
 .drag_box {
