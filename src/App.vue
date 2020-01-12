@@ -24,7 +24,7 @@
     </jiang-collapse> -->
 
     <!-- 拖拽组件 -->
-    <jiang-drag :data="componentData"
+    <jiang-drag :list="componentData"
                 @finishDrag="finishDrag">
       <template v-slot:header="slotProps">
         <div class="topMenuBox">

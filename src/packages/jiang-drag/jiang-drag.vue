@@ -3,7 +3,7 @@
     <div
       :id="dragItem.id"
       :class="$commonClass + '-drag-item'"
-      @mousedown="touchStart($event, dragItem)"
+      @mousedown="touchStart($event, dragItem, dragIndex)"
       v-for="(dragItem, dragIndex) in data"
       :key="dragItem.id"
     >
@@ -24,19 +24,20 @@
 </template>
 
 <script>
-import { log } from 'util'
+import _ from 'lodash'
 const commonMargin = 20
 
 export default {
   name: 'jiangDrag',
   props: {
-    data: {
+    list: {
       type: Array,
       default: []
     }
   },
   data() {
     return {
+      data: [],
       commonMargin,
       selectdom: null,
       dragItem: {},
@@ -56,6 +57,9 @@ export default {
       boxTop: 0
     }
   },
+  created() {
+    this.data = _.cloneDeep(this.list)
+  },
   mounted() {
     const { top, height, width } = document
       .getElementById(this.$commonClass + '-drag')
@@ -68,7 +72,7 @@ export default {
     })
   },
   methods: {
-    touchStart(event, dragItem) {
+    touchStart(event, dragItem, dragIndex) {
       // 记录鼠标移动的记录
       this.startMovePosition = {
         top: 0,
@@ -84,6 +88,7 @@ export default {
       this.selectdom = document.getElementById(dragItem.id)
 
       this.dragItem = dragItem
+      this.dragIndex = dragIndex
 
       const { width, height, x, y } = this.selectdom.getBoundingClientRect()
 
@@ -118,13 +123,13 @@ export default {
       this.selectdom.style.width = this.startMoveItem.width + 'px'
       this.selectdom.style.heihgt = this.startMoveItem.height + 'px'
 
+      this.data.forEach((v, i) => {
+        this.getDragItemStyle(v.id, i)
+      })
+
       if (!this.moveTimer) {
         this.moveTimer = setTimeout(() => {
           this.moveIndex = this.getDragItemIndex()
-
-          this.data.forEach((v, i) => {
-            this.getDragItemStyle(v.id, i)
-          })
 
           clearTimeout(this.moveTimer)
           this.moveTimer = null
@@ -132,9 +137,27 @@ export default {
       }
     },
 
+    // 松开鼠标
     mouseUpListener(event) {
       document.removeEventListener('mousemove', this.mouseMoveListener)
       document.removeEventListener('mouseup', this.mouseUpListener)
+
+      const data = _.cloneDeep(this.data)
+
+      const moveItem = data.splice(this.dragIndex, 1)
+
+      this.data = data
+
+      this.data.splice(this.moveIndex, 0, moveItem[0])
+
+      this.$nextTick(() => {
+        this.data.forEach((v, i) => {
+          this.getDragItemStyle(v.id, i, true)
+        })
+
+        this.moveIndex = null
+        this.selectdom = null
+      })
     },
 
     /**
@@ -142,8 +165,17 @@ export default {
      * @params id {string|number} 拖拽的id
      * @params index {number} 每行元素位于data数据中的索引
      */
-    getDragItemStyle(id, index) {
+    getDragItemStyle(id, index, reset) {
       const itemDom = document.getElementById(id)
+
+      if (reset && itemDom.style) {
+        itemDom.style.position = 'static'
+        itemDom.style.transform = 'none'
+        itemDom.style.marginBottom = this.commonMargin + 'px'
+        itemDom.style.transition = 'none'
+
+        return
+      }
 
       if (this.dragItem.id === id) return (itemDom.style.marginBottom = 0)
 
@@ -187,6 +219,9 @@ export default {
     // 计算出当前移动盒子应该在的索引
     getDragItemIndex() {
       // 当前移动盒子的top值
+      if (!this.selectdom) {
+        return 0
+      }
       const curTop =
         this.selectdom.style.top.substring(
           0,
@@ -208,8 +243,6 @@ export default {
           moveIndex = i + 1
         }
       }
-
-      console.log(moveIndex)
 
       return moveIndex
     }
