@@ -1,7 +1,13 @@
 <template>
   <div id="app">
     <!-- <toggle-menu :menu-list="menuList" :position="position"></toggle-menu> -->
-    <!-- <jiang-switch v-model="isSwitch"></jiang-switch>  -->
+    <jiang-switch
+      v-model="isSwitch"
+      :width="150"
+      :height="50"
+      active-text="自取"
+      inactive-text="外卖"
+    ></jiang-switch>
     <!-- <jiang-loading :show="show"></jiang-loading> -->
     <!-- <jiang-collapse v-model="active"
                     @change="change"
@@ -23,8 +29,8 @@
       </jiang-collapse-item>
     </jiang-collapse> -->
 
-    <!-- 拖拽组件 -->
-    <jiang-drag :data="componentData"
+    <!-- 拖拽组件 未完成 -->
+    <!-- <jiang-drag :data="componentData"
                 @finishDrag="finishDrag">
       <template v-slot:header="slotProps">
         <div class="topMenuBox">
@@ -34,50 +40,50 @@
                v-else>默认标题</div>
         </div>
       </template>
-    </jiang-drag>
+    </jiang-drag> -->
   </div>
 </template>
 
 <script>
-import exampleChild1 from './components/exampleChild1'
+import exampleChild1 from "./components/exampleChild1";
 
 export default {
-  name: 'app',
+  name: "app",
   data() {
     return {
-      isSwitch: false,
+      isSwitch: true,
       menuList: [
         //name和src必填，且name唯一否则会报错
-        { name: 'menu1', src: require('./assets/fei.png') },
-        { name: 'menu2', src: require('./assets/gong.png') },
-        { name: 'menu3', src: require('./assets/pan.png') },
-        { name: 'menu4', src: require('./assets/user.png') },
-        { name: 'menu5', src: require('./assets/xing.png') }
+        { name: "menu1", src: require("./assets/fei.png") },
+        { name: "menu2", src: require("./assets/gong.png") },
+        { name: "menu3", src: require("./assets/pan.png") },
+        { name: "menu4", src: require("./assets/user.png") },
+        { name: "menu5", src: require("./assets/xing.png") }
       ],
-      position: 'RT',
+      position: "RT",
       show: true,
-      active: ['1'],
+      active: ["1"],
 
       componentData: [
         {
-          name: '卡片1',
-          id: 'card1',
+          name: "卡片1",
+          id: "card1",
           componentData: exampleChild1
         },
         {
-          name: '卡片2',
-          id: 'card2',
+          name: "卡片2",
+          id: "card2",
           componentData: exampleChild1
         },
         {
-          name: '卡片3',
-          id: 'card3',
-          content: '测试content3'
+          name: "卡片3",
+          id: "card3",
+          content: "测试content3"
         },
         {
-          name: '卡片4',
-          id: 'card4',
-          content: '测试content4'
+          name: "卡片4",
+          id: "card4",
+          content: "测试content4"
         }
       ],
       dragOptions: {
@@ -88,7 +94,7 @@ export default {
         cardInsideHeight: 120, //单个卡片的内容高度
         mousedownTimer: null //用于记录卡片当前是否在过渡状态中的定时器
       }
-    }
+    };
   },
   created() {
     // this.$jiangLoading.open()
@@ -96,23 +102,16 @@ export default {
     //   this.$jiangLoading.hide()
     // }, 1000)
   },
-  methods: {
-    change(value) {
-      // console.log(value)
-    },
-    finishDrag(old, newVal, item) {
-      // console.log(old, newVal, item)
-    }
-  },
+  methods: {},
   components: {
     exampleChild1
   }
-}
+};
 </script>
 
 <style scoped lang="less">
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;

@@ -3,26 +3,26 @@
     <span class="title">
       <slot></slot>
     </span>
-    <div :class="['switch', {closed: checked}]"
-         @click="hadleChange">
-      <span :class="[{closed: checked}]"></span>
+    <div
+      :class="['switch']"
+      :style="getStyle"
+      @click="hadleChange"
+    >
+      <span :style="{color: checked ? '' : '#fff', fontSize: checked ? '' : '18px'}">{{activeText}}</span>
+      <span :style="{color: checked ? '#fff' : '', fontSize: checked ? '18px' : ''}">{{inactiveText}}</span>
+      <span
+        class="activeCard"
+        :style="getHighLightStyle"
+      ></span>
     </div>
-    <input type="checkbox"
-           @change="hadleChange"
-           :value="value"
-           :disabled="disabled">
   </div>
 </template>
 
 <script>
 export default {
-  name: 'jiangSwitch',
+  name: "jiangSwitch",
   props: {
     value: {
-      type: [String, Number, Boolean],
-      default: false
-    },
-    disabled: {
       type: [String, Number, Boolean],
       default: false
     },
@@ -33,19 +33,67 @@ export default {
     offState: {
       type: [String, Number, Boolean],
       default: false
+    },
+    width: {
+      type: [Number, String],
+      default: 40
+    },
+    height: {
+      type: [Number, String],
+      default: 20
+    },
+    backgroundColor: {
+      type: String,
+      default: "rgba(0, 0, 0, .1)"
+    },
+    highLightColor: {
+      type: String,
+      default: "#000"
+    },
+    activeText: {
+      type: String
+    },
+    inactiveText: {
+      type: String
     }
   },
   computed: {
+    padding() {
+      return Math.ceil(this.height / 10);
+    },
     checked() {
-      return this.value == this.offState
+      return this.value === this.onState;
+    },
+    getStyle() {
+      return {
+        height: this.height + "px",
+        width: this.width + "px",
+        borderRadius: this.height / 2 + "px",
+        backgroundColor: this.backgroundColor
+      };
+    },
+    getHighLightStyle() {
+      const left = this.checked ? this.width / 2 + this.padding : this.padding;
+
+      return {
+        height: this.height - this.padding * 2 + "px",
+        width: this.width / 2 - this.padding * 2 + "px",
+        borderRadius: (this.height - 4) / 2 + "px",
+        backgroundColor: this.highLightColor,
+        top: this.padding + "px",
+        left: left + "px"
+      };
     }
   },
   methods: {
     hadleChange() {
-      this.$emit('input', this.value ? this.offState : this.onState)
+      this.$emit(
+        "input",
+        this.value === this.onState ? this.offState : this.onState
+      );
     }
   }
-}
+};
 </script>
 
 <style lang="less" scoped>
@@ -53,25 +101,26 @@ export default {
   line-height: 20px;
 }
 .switch {
-  width: 40px;
-  height: 20px;
-  border-radius: 10px;
-  background-color: rgb(19, 206, 102);
-  display: inline-block;
+  display: flex;
+  align-items: center;
   vertical-align: middle;
   position: relative;
   cursor: pointer;
-  span {
-    width: 16px;
-    height: 16px;
+  span.activeCard {
     position: absolute;
-    left: 22px;
-    border-radius: 8px;
-    top: 2px;
-    background-color: #fff;
     transition: 200ms;
-    &.closed {
-      left: 2px;
+    z-index: 0;
+  }
+  span {
+    &:nth-child(1),
+    &:nth-child(2) {
+      position: relative;
+      z-index: 1;
+      display: inline-block;
+      width: 50%;
+      text-align: center;
+      color: #999;
+      font-size: 16px;
     }
   }
   &.closed {
